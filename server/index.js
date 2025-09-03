@@ -47,4 +47,19 @@ app.patch("/api/courses/:id/toggle", async (req, res) => {
   }
 });
 
+app.delete("/api/courses/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const [result] = await db.execute("DELETE FROM courses WHERE id = ?", [id]);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Curso no encontrado" });
+    }
+    res.json({ message: "Curso eliminado correctamente" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+
 app.listen(3000, () => console.log("Backend running on http://localhost:3000"));
