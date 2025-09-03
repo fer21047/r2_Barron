@@ -38,5 +38,20 @@ export const courseService = {
     } catch (error) {
       return { success: false, error: error.message };
     }
+  },
+
+  deleteCourse: async (id) => {
+  try {
+    const res = await fetch(`${API_URL}/${id}`, {
+      method: "DELETE"
+    });
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || "Error eliminando curso");
+    }
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
   }
+}
 };
